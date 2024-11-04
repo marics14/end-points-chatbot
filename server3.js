@@ -10,7 +10,15 @@ app.use(express.json())
 const port = 3000;
 
 // Configura o middleware
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+          callback(null, origin);
+      } else {
+          callback(new Error('Not allowed by CORS'));
+      }
+  }
+}));
 // Conectar ao MongoDB
 const mongoURI = 'mongodb+srv://marianadecastrosilva234:K4esJlEOdB5LTGT@cluster0.ywqev.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
